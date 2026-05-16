@@ -1,5 +1,36 @@
 {
   "schemaVersion": 1,
-  "days": {},
+  "days": {
+    "2026-05-12": {
+      "date": "2026-05-12",
+      "comprobante": "131",
+      "responsable": "Cargo Beer Burger Pto Colombia",
+      "pdfFilename": "Cierre 5-12.pdf",
+      "ventas": {
+        "efectivo": 212000,
+        "tarjeta": 266500,
+        "transferencia": 324000
+      },
+      "domicilioEfectivo": 0,
+      "propinaTotal": 57000,
+      "gastos": {
+        "nomina": 100000,
+        "proveedores": 31000,
+        "domicilios": 0,
+        "otros": 0
+      },
+      "ajustes": [],
+      "notas": [],
+      "contadoDetalle": {
+        "monedas": 0,
+        "b2k": 0,
+        "b5k": 0,
+        "b10k": 0,
+        "b20k": 0,
+        "b50k": 0,
+        "b100k": 0
+      }
+    }
+  },
   "extrasMes": {}
 }
