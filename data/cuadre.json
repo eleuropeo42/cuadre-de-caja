@@ -591,14 +591,14 @@
       "notas": [],
       "contadoDetalle": {
         "monedas": 0,
-        "b2k": 0,
+        "b2k": 2,
         "b5k": 0,
         "b10k": 0,
         "b20k": 0,
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1778951739467
+      "_mtime": 1778951826855
     }
   },
   "extrasMes": {
