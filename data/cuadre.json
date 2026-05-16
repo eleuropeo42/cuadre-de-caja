@@ -662,7 +662,13 @@
         "otros": 0
       },
       "ajustes": [],
-      "notas": [],
+      "notas": [
+        {
+          "id": 1778952232425.2117,
+          "monto": 0,
+          "descripcion": ""
+        }
+      ],
       "contadoDetalle": {
         "monedas": 500,
         "b2k": 14,
