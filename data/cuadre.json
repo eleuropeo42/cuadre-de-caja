@@ -473,7 +473,7 @@
       "ajustes": [],
       "notas": [],
       "contadoDetalle": {
-        "monedas": 0,
+        "monedas": 700,
         "b2k": 0,
         "b5k": 2,
         "b10k": 0,
@@ -481,7 +481,7 @@
         "b50k": 3,
         "b100k": 2
       },
-      "_mtime": 1778951051273
+      "_mtime": 1778951061916
     }
   },
   "extrasMes": {}
