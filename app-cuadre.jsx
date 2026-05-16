@@ -236,6 +236,11 @@ const MoneyCell = ({ value, onChange, pdf, size = 14, mute, bold }) => {
 
 const MethodCard = ({ name, t, date, store, primary }) => {
   const day = store.getDay(date);
+  // Detect if user has overridden the PDF-extracted total for this method
+  const pdfSum = (day.pdfFiles || []).reduce((a, p) => a + ((p.contributed?.ventas?.[name]) || 0), 0);
+  const currentValue = day.ventas[name] || 0;
+  const corrected = pdfSum > 0 && currentValue !== pdfSum;
+
   return (
     <div className="box" style={{ padding: 14 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -244,7 +249,7 @@ const MethodCard = ({ name, t, date, store, primary }) => {
           <span style={{ fontSize: 13, fontWeight: 600 }}>{METHOD_LABEL[name]}</span>
         </div>
         {primary
-          ? <span className="tag" style={{ background: W.ink, color: W.paper, fontSize: 9.5, padding: '2px 6px' }}>al cuadre</span>
+          ? <span className="tag" style={{ background: W.accent, color: W.highlightInk, fontSize: 9.5, padding: '2px 6px' }}>al cuadre</span>
           : <span className="tag" style={{ fontSize: 9.5, padding: '2px 6px' }}>conciliar banco</span>}
       </div>
 
@@ -253,19 +258,37 @@ const MethodCard = ({ name, t, date, store, primary }) => {
       <div style={{
         marginTop: 8, padding: '8px 10px',
         background: W.paperAlt, borderRadius: 6,
-        fontSize: 11.5, display: 'grid', gridTemplateColumns: '1fr auto', rowGap: 4, alignItems: 'center'
+        fontSize: 11.5,
       }}>
-        <span style={{ color: W.inkMute }}>Del PDF</span>
-        <MoneyCell
-          value={day.ventas[name] || 0}
-          onChange={(v) => store.updateDayField(date, ['ventas', name], v)}
-          pdf
-          size={12}
-        />
-        <span style={{ color: W.inkMute }}>Ajuste neto</span>
-        <span className="money" style={{ color: t.ajuste === 0 ? W.inkGhost : (t.ajuste > 0 ? W.accent : W.alarm), fontWeight: 600, fontSize: 12 }}>
-          {t.ajuste === 0 ? '—' : fmtMoneySigned(t.ajuste)}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ color: W.inkMute }}>Del PDF</span>
+            {corrected && (
+              <span
+                className="tag tag-warn"
+                style={{ fontSize: 9, padding: '0 5px' }}
+                title={`Original del PDF: ${fmtMoney(pdfSum)} · click para restaurar`}
+                onClick={() => store.updateDayField(date, ['ventas', name], pdfSum)}
+              >
+                corregido
+              </span>
+            )}
+          </div>
+          <MoneyInput
+            value={currentValue}
+            onChange={(v) => store.updateDayField(date, ['ventas', name], v)}
+            style={{
+              width: 110, padding: '3px 8px', fontSize: 12,
+              background: W.paper, borderColor: corrected ? W.warnBorder : W.line,
+            }}
+          />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ color: W.inkMute }}>Ajuste neto</span>
+          <span className="money" style={{ color: t.ajuste === 0 ? W.inkGhost : (t.ajuste > 0 ? W.accent : W.alarm), fontWeight: 600, fontSize: 12 }}>
+            {t.ajuste === 0 ? '—' : fmtMoneySigned(t.ajuste)}
+          </span>
+        </div>
       </div>
     </div>
   );
