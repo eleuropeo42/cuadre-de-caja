@@ -770,9 +770,9 @@
       "ajustes": [
         {
           "id": 1778952701975.6824,
-          "de": "tarjeta",
-          "a": "efectivo",
-          "monto": 0,
+          "de": "efectivo",
+          "a": "transferencia",
+          "monto": 17000,
           "nota": ""
         }
       ],
