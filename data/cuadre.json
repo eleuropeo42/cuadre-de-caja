@@ -767,7 +767,15 @@
         "domicilios": 21000,
         "otros": 20000
       },
-      "ajustes": [],
+      "ajustes": [
+        {
+          "id": 1778952701975.6824,
+          "de": "tarjeta",
+          "a": "efectivo",
+          "monto": 0,
+          "nota": ""
+        }
+      ],
       "notas": [],
       "contadoDetalle": {
         "monedas": 10400,
