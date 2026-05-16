@@ -529,6 +529,11 @@
           "id": 1778951510090.3423,
           "monto": -180000,
           "descripcion": "Venta Aceite"
+        },
+        {
+          "id": 1778951551129.2437,
+          "monto": 76400,
+          "descripcion": "Envio a Caja Efectivo"
         }
       ],
       "contadoDetalle": {
