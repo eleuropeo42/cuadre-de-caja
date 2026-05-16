@@ -252,7 +252,15 @@
         "domicilios": 3000,
         "otros": 0
       },
-      "ajustes": [],
+      "ajustes": [
+        {
+          "id": 1778949855611.911,
+          "de": "tarjeta",
+          "a": "efectivo",
+          "monto": 0,
+          "nota": ""
+        }
+      ],
       "notas": [],
       "contadoDetalle": {
         "monedas": 0,
