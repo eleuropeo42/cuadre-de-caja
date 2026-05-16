@@ -770,8 +770,8 @@
       "ajustes": [
         {
           "id": 1778952701975.6824,
-          "de": "efectivo",
-          "a": "transferencia",
+          "de": "transferencia",
+          "a": "efectivo",
           "monto": 170000,
           "nota": "Troque"
         }
