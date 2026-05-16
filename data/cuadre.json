@@ -770,7 +770,7 @@
       "ajustes": [],
       "notas": [],
       "contadoDetalle": {
-        "monedas": 0,
+        "monedas": 10400,
         "b2k": 13,
         "b5k": 6,
         "b10k": 13,
@@ -778,7 +778,7 @@
         "b50k": 7,
         "b100k": 3
       },
-      "_mtime": 1778952665374
+      "_mtime": 1778952680850
     }
   },
   "extrasMes": {
