@@ -528,13 +528,13 @@
       "contadoDetalle": {
         "monedas": 0,
         "b2k": 14,
-        "b5k": 0,
+        "b5k": 7,
         "b10k": 0,
         "b20k": 0,
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1778951405063
+      "_mtime": 1778951413171
     }
   },
   "extrasMes": {}
