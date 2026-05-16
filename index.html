@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cuadre de Caja · Cargo</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" href="assets/cargo-logo.png">
+</head>
+<body>
+<div id="root"></div>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<!-- SheetJS for Excel export -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+<!-- App modules (order matters) -->
+<script type="text/babel" src="app-shared.jsx"></script>
+<script type="text/babel" src="app-github-sync.jsx"></script>
+<script type="text/babel" src="app-store.jsx"></script>
+<script type="text/babel" src="app-pdf-parser.jsx"></script>
+<script type="text/babel" src="app-cuadre.jsx"></script>
+<script type="text/babel" src="app-screens.jsx"></script>
+<script type="text/babel" src="app-settings.jsx"></script>
+
+<script type="text/babel">
+function App() {
+  const store = useStore();
+  const view = store.ui.view;
+
+  const screens = {
+    'cuadre':       <CuadreDelDia store={store} />,
+    'calendar':     <Calendario store={store} />,
+    'resumen-mes':  <ResumenMes store={store} />,
+    'extras-mes':   <ExtrasMesView store={store} />,
+    'propinas':     <PropinasView store={store} />,
+    'descuadres':   <Descuadres store={store} />,
+    'anual':        <ResumenAnual store={store} />,
+    'ajustes':      <Ajustes store={store} />,
+  };
+
+  return (
+    <div className="app-shell">
+      <Sidebar
+        active={view}
+        onNavigate={store.navigate}
+        onExport={(e) => { e?.preventDefault?.(); store.exportJson(); }}
+        onImport={(e) => { e?.preventDefault?.(); store.importJson(); }}
+        syncStatus={store.sync.status}
+        onSyncClick={() => store.navigate('ajustes')}
+      />
+      {screens[view] || screens['cuadre']}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
