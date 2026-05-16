@@ -407,7 +407,7 @@
       "ventas": {
         "efectivo": 189600,
         "tarjeta": 766300,
-        "transferencia": 11300
+        "transferencia": 113000
       },
       "domicilioEfectivo": 0,
       "propinaTotal": 84900,
@@ -428,7 +428,7 @@
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1778950838111
+      "_mtime": 1778950844320
     }
   },
   "extrasMes": {}
