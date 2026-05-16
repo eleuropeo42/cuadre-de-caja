@@ -665,12 +665,17 @@
       "notas": [
         {
           "id": 1778952232425.2117,
-          "monto": 0,
-          "descripcion": ""
+          "monto": 300000,
+          "descripcion": "Viaje Ximena"
+        },
+        {
+          "id": 1778952247199.1187,
+          "monto": 50000,
+          "descripcion": "Audifonos Uber Miguel"
         }
       ],
       "contadoDetalle": {
-        "monedas": 500,
+        "monedas": 400,
         "b2k": 14,
         "b5k": 3,
         "b10k": 0,
@@ -678,7 +683,7 @@
         "b50k": 5,
         "b100k": 0
       },
-      "_mtime": 1778952226209
+      "_mtime": 1778952259923
     }
   },
   "extrasMes": {
