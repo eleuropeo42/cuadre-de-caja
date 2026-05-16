@@ -235,7 +235,10 @@ const emptyDay = (date) => ({
   date,
   comprobante: '',
   responsable: '',
-  pdfFilename: '',
+  // Multiple PDFs allowed (e.g. weekends with 2 shifts).
+  // Each entry: { id, name, comprobante, responsable, rawOcrText, contributed }
+  // `contributed` is a snapshot of what THIS pdf added (so we can subtract on removal).
+  pdfFiles: [],
   ventas: { efectivo: 0, tarjeta: 0, transferencia: 0 },
   domicilioEfectivo: 0,
   propinaTotal: 0,
@@ -244,6 +247,27 @@ const emptyDay = (date) => ({
   notas: [],
   contadoDetalle: { monedas: 0, b2k: 0, b5k: 0, b10k: 0, b20k: 0, b50k: 0, b100k: 0 },
 });
+
+// Normalize legacy day shape: migrate `pdfFilename` (single) → `pdfFiles` (array).
+const normalizeDay = (d) => {
+  if (!d) return d;
+  if (Array.isArray(d.pdfFiles)) return d;
+  const out = { ...d };
+  if (out.pdfFilename) {
+    out.pdfFiles = [{
+      id: 'legacy_' + (out.pdfFilename || 'pdf'),
+      name: out.pdfFilename,
+      comprobante: out.comprobante || '',
+      responsable: out.responsable || '',
+      rawOcrText: out.rawOcrText || '',
+      contributed: null, // unknown — can't subtract on removal
+    }];
+  } else {
+    out.pdfFiles = [];
+  }
+  delete out.pdfFilename;
+  return out;
+};
 
 // === Cuadre math ===
 const computeContado = (detalle) => {
@@ -272,7 +296,7 @@ const computeDay = (d) => {
   const contado = computeContado(d.contadoDetalle);
   const hasInput = computeContado(d.contadoDetalle) > 0 || (d.contadoDetalle && Object.values(d.contadoDetalle).some(v => v > 0));
   const descuadre = hasInput ? (contado - esperado) : null;
-  const hasPdf = !!d.pdfFilename || Object.values(d.ventas||{}).some(v=>v>0);
+  const hasPdf = (d.pdfFiles?.length > 0) || !!d.pdfFilename || Object.values(d.ventas||{}).some(v=>v>0);
   return { porMetodo, efectivoAjustado, gastosTotal, notasTotal, esperado, contado, descuadre, hasPdf, hasInput };
 };
 
@@ -394,5 +418,5 @@ Object.assign(window, {
   todayISO, dateLabel, shortDateLabel, yearMonthOf, ymLabel, ymPrev, ymNext, daysInMonth, firstWeekdayOfMonth,
   MONTH_NAMES, DAY_NAMES,
   DENOMS, METHODS, METHOD_LABEL, GASTO_CATS,
-  emptyDay, computeContado, computeDay,
+  emptyDay, normalizeDay, computeContado, computeDay,
 });

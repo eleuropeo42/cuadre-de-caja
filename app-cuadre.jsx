@@ -17,9 +17,53 @@ const DayNavigator = ({ date, onPrev, onNext, onPick, computed }) => (
   </div>
 );
 
-const PdfDropzone = ({ day, onFile, parsing, parseErr, onRetry }) => {
+const PdfFileRow = ({ pdf, onRemove, onShowOcr, dim }) => (
+  <div className="box" style={{
+    padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 12,
+    background: W.paperAlt, opacity: dim ? 0.6 : 1
+  }}>
+    <div style={{
+      width: 30, height: 36, borderRadius: 4, background: W.fill,
+      border: `1px solid ${W.line}`, display: 'flex', alignItems: 'center',
+      justifyContent: 'center', color: W.inkSoft, flex: '0 0 auto'
+    }}>
+      {Ico.file()}
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ fontWeight: 600, fontSize: 12.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        {pdf.name}
+      </div>
+      <div style={{ fontSize: 11, color: W.inkMute }}>
+        {pdf.comprobante ? `Comp. #${pdf.comprobante}` : 'Sin comprobante'}
+        {pdf.contributed && (
+          <span style={{ marginLeft: 8 }}>
+            · sumó {fmtMoney(
+              (pdf.contributed.ventas?.efectivo || 0) +
+              (pdf.contributed.ventas?.tarjeta || 0) +
+              (pdf.contributed.ventas?.transferencia || 0)
+            )} en ventas
+          </span>
+        )}
+        {!pdf.contributed && <span style={{ marginLeft: 8, fontStyle: 'italic' }}>· valores no rastreados</span>}
+      </div>
+    </div>
+    {pdf.rawOcrText && (
+      <button className="btn btn-ghost" style={{ padding: '4px 8px' }} onClick={() => onShowOcr(pdf)} title="Ver el texto que el OCR extrajo">
+        {Ico.list()} OCR
+      </button>
+    )}
+    <button
+      className="btn btn-ghost btn-danger"
+      style={{ padding: 4 }}
+      onClick={() => onRemove(pdf)}
+      title={pdf.contributed ? 'Quitar este PDF y restar sus valores' : 'Quitar este PDF (no se pueden restar valores legacy)'}
+    >{Ico.trash()}</button>
+  </div>
+);
+
+const PdfDropzone = ({ day, onAddFile, onRemovePdf, parsing, parseErr, onRetry }) => {
   const [over, setOver] = React.useState(false);
-  const [showOcr, setShowOcr] = React.useState(false);
+  const [ocrFor, setOcrFor] = React.useState(null);
   const inputRef = React.useRef();
 
   const handle = async (file) => {
@@ -28,84 +72,102 @@ const PdfDropzone = ({ day, onFile, parsing, parseErr, onRetry }) => {
       alert('Solo archivos PDF');
       return;
     }
-    onFile(file);
+    onAddFile(file);
   };
 
-  // Show parsing state if active
-  if (parsing) {
-    const label = (() => {
-      if (parsing.stage === 'init') return 'Iniciando…';
-      if (parsing.stage === 'render') return `Renderizando página ${parsing.page} de ${parsing.total}…`;
-      if (parsing.stage === 'loading') return `Cargando OCR (${parsing.percent || 0}%)…`;
-      if (parsing.stage === 'ocr') return `Leyendo página ${parsing.page} de ${parsing.total}…`;
-      if (parsing.stage === 'ocr-progress') return `Reconociendo texto ${parsing.percent || 0}%…`;
-      return 'Procesando PDF…';
-    })();
-    const percent = parsing.percent;
-    return (
-      <div className="box" style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 12, background: W.paperAlt }}>
-        <div style={{
-          width: 36, height: 36, borderRadius: '50%', border: `2px solid ${W.line}`,
-          borderTopColor: W.accent, animation: 'spin 0.8s linear infinite'
-        }}/>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 600, fontSize: 13 }}>{label}</div>
-          <div style={{ fontSize: 11.5, color: W.inkMute, marginTop: 2 }}>
-            La primera vez descarga datos del modelo OCR (~5MB). Puede tomar 10–30 segundos por página.
-          </div>
-          {typeof percent === 'number' && (
-            <div className="bar" style={{ marginTop: 6, width: '100%' }}>
-              <i style={{ width: `${percent}%` }}/>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const files = day.pdfFiles || [];
+  const hasFiles = files.length > 0;
 
-  if (day.pdfFilename) {
-    return (
-      <>
-      <div className="box" style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 12, background: W.paperAlt }}>
-        <div style={{
-          width: 36, height: 44, borderRadius: 4, background: W.fill,
-          border: `1px solid ${W.line}`, display: 'flex', alignItems: 'center',
-          justifyContent: 'center', color: W.inkSoft,
-        }}>
-          {Ico.file({ size: 'ico-lg' })}
+  return (
+    <>
+      {hasFiles && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 8 }}>
+          {files.map(pdf => (
+            <PdfFileRow
+              key={pdf.id}
+              pdf={pdf}
+              onShowOcr={setOcrFor}
+              onRemove={(p) => {
+                const msg = p.contributed
+                  ? `¿Quitar "${p.name}" del día? Se restarán sus valores aportados.`
+                  : `¿Quitar "${p.name}"? Los valores del día NO se restarán (este PDF se importó antes del rastreo por turno).`;
+                if (confirm(msg)) onRemovePdf(p.id);
+              }}
+            />
+          ))}
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 600, fontSize: 13 }}>{day.pdfFilename}</div>
-          <div style={{ fontSize: 11.5, color: parseErr ? W.alarm : W.inkMute }}>
-            {parseErr
-              ? `Error al leer: ${parseErr}`
-              : day.comprobante
-                ? `Comprobante #${day.comprobante}${day.responsable ? ` · ${day.responsable}` : ''}`
-                : 'Archivo guardado · valores editables manualmente'}
+      )}
+
+      {parsing ? (
+        <div className="box" style={{ padding: 14, display: 'flex', alignItems: 'center', gap: 12, background: W.paperAlt }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: '50%', border: `2px solid ${W.line}`,
+            borderTopColor: W.accent, animation: 'spin 0.8s linear infinite'
+          }}/>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 600, fontSize: 13 }}>{(() => {
+              if (parsing.stage === 'init') return 'Iniciando…';
+              if (parsing.stage === 'render') return `Renderizando página ${parsing.page} de ${parsing.total}…`;
+              if (parsing.stage === 'loading') return `Cargando OCR (${parsing.percent || 0}%)…`;
+              if (parsing.stage === 'ocr') return `Leyendo página ${parsing.page} de ${parsing.total}…`;
+              if (parsing.stage === 'ocr-progress') return `Reconociendo texto ${parsing.percent || 0}%…`;
+              return 'Procesando PDF…';
+            })()}</div>
+            <div style={{ fontSize: 11.5, color: W.inkMute, marginTop: 2 }}>
+              {hasFiles ? 'Agregando segundo turno…' : 'La primera vez descarga datos del modelo OCR (~5MB).'}
+            </div>
+            {typeof parsing.percent === 'number' && (
+              <div className="bar" style={{ marginTop: 6, width: '100%' }}>
+                <i style={{ width: `${parsing.percent}%` }}/>
+              </div>
+            )}
           </div>
         </div>
-        {day.rawOcrText && (
-          <button className="btn btn-ghost" onClick={() => setShowOcr(true)} title="Ver el texto que el OCR extrajo del PDF">
-            {Ico.list()} Ver texto OCR
-          </button>
-        )}
-        {parseErr && onRetry && (
-          <button className="btn btn-ghost" onClick={onRetry}>{Ico.refresh()} Reintentar OCR</button>
-        )}
-        <button className="btn btn-ghost" onClick={() => inputRef.current.click()}>
-          {Ico.refresh()} Cambiar
-        </button>
-        <input
-          ref={inputRef}
-          type="file" accept=".pdf,application/pdf"
-          style={{ display: 'none' }}
-          onChange={e => handle(e.target.files[0])}
-        />
-      </div>
-      {showOcr && (
+      ) : (
         <div
-          onClick={(e) => { if (e.target === e.currentTarget) setShowOcr(false); }}
+          className={`dropzone ${over ? 'is-over' : ''}`}
+          onDragOver={e => { e.preventDefault(); setOver(true); }}
+          onDragLeave={() => setOver(false)}
+          onDrop={e => { e.preventDefault(); setOver(false); handle(e.dataTransfer.files[0]); }}
+          onClick={() => inputRef.current.click()}
+          style={{ padding: hasFiles ? '12px 18px' : '20px 24px' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {hasFiles ? Ico.plus({ size: 'ico-lg' }) : Ico.upload({ size: 'ico-lg' })}
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontWeight: 600, fontSize: 13 }}>
+                {hasFiles ? 'Agregar otro turno (segundo PDF)' : 'Suelta el PDF de cierre acá'}
+              </div>
+              <div style={{ fontSize: 11.5, color: W.inkMute }}>
+                {hasFiles
+                  ? 'Los valores se suman a los del primer turno'
+                  : 'o click para seleccionar · los valores se llenan automáticamente con OCR'}
+              </div>
+            </div>
+          </div>
+          <input
+            ref={inputRef}
+            type="file" accept=".pdf,application/pdf"
+            style={{ display: 'none' }}
+            onChange={e => { handle(e.target.files[0]); e.target.value = ''; }}
+          />
+        </div>
+      )}
+
+      {parseErr && (
+        <div className="box" style={{
+          padding: '8px 12px', marginTop: 6, background: W.alarmSoft, borderColor: W.alarmBorder,
+          color: W.alarm, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12,
+        }}>
+          {Ico.warn()} {parseErr}
+          {onRetry && <button className="btn btn-ghost" style={{ marginLeft: 'auto', padding: '3px 8px', color: W.alarm }} onClick={onRetry}>{Ico.refresh()} Reintentar</button>}
+        </div>
+      )}
+
+      {ocrFor && (
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) setOcrFor(null); }}
           style={{
             position: 'fixed', inset: 0, zIndex: 100,
             background: 'rgba(0,0,0,0.7)', display: 'flex',
@@ -115,14 +177,14 @@ const PdfDropzone = ({ day, onFile, parsing, parseErr, onRetry }) => {
           <div className="box" style={{ width: '100%', maxWidth: 900, maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderBottom: `1px solid ${W.line}` }}>
               <div>
-                <h2 className="h2">Texto extraído del PDF</h2>
-                <div className="sub">Si el parser no detectó algún valor, copia la línea y dímela para ajustar el regex.</div>
+                <h2 className="h2">Texto extraído · {ocrFor.name}</h2>
+                <div className="sub">Si el parser no detectó algún valor, copia la línea para revisar.</div>
               </div>
               <div style={{ display: 'flex', gap: 6 }}>
-                <button className="btn" onClick={() => navigator.clipboard.writeText(day.rawOcrText)}>
+                <button className="btn" onClick={() => navigator.clipboard.writeText(ocrFor.rawOcrText || '')}>
                   Copiar todo
                 </button>
-                <button className="btn btn-ghost" onClick={() => setShowOcr(false)}>{Ico.x()}</button>
+                <button className="btn btn-ghost" onClick={() => setOcrFor(null)}>{Ico.x()}</button>
               </div>
             </div>
             <pre style={{
@@ -130,42 +192,11 @@ const PdfDropzone = ({ day, onFile, parsing, parseErr, onRetry }) => {
               fontFamily: '"JetBrains Mono",monospace', fontSize: 12, lineHeight: 1.55,
               color: W.inkSoft, whiteSpace: 'pre-wrap', wordBreak: 'break-word',
               background: W.pageBg,
-            }}>{day.rawOcrText}</pre>
+            }}>{ocrFor.rawOcrText || '(sin texto OCR)'}</pre>
           </div>
         </div>
       )}
-      </>
-    );
-  }
-
-  return (
-    <div
-      className={`dropzone ${over ? 'is-over' : ''}`}
-      onDragOver={e => { e.preventDefault(); setOver(true); }}
-      onDragLeave={() => setOver(false)}
-      onDrop={e => {
-        e.preventDefault(); setOver(false);
-        handle(e.dataTransfer.files[0]);
-      }}
-      onClick={() => inputRef.current.click()}
-      style={{ padding: '20px 24px' }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        {Ico.upload({ size: 'ico-lg' })}
-        <div style={{ textAlign: 'left' }}>
-          <div style={{ fontWeight: 600, fontSize: 13 }}>Suelta el PDF de cierre acá</div>
-          <div style={{ fontSize: 11.5, color: W.inkMute }}>
-            o click para seleccionar · los valores se llenan automáticamente con OCR
-          </div>
-        </div>
-      </div>
-      <input
-        ref={inputRef}
-        type="file" accept=".pdf,application/pdf"
-        style={{ display: 'none' }}
-        onChange={e => handle(e.target.files[0])}
-      />
-    </div>
+    </>
   );
 };
 
@@ -558,7 +589,8 @@ const CuadreDelDia = ({ store }) => {
     try {
       if (!window.parsePdf) throw new Error('Parser no disponible');
       const parsed = await window.parsePdf(file, (p) => setParsing(p));
-      // Decide which day to update — prefer PDF-extracted date if confident
+
+      // PDF-extracted date overrides target IF different — ask user first
       let useDate = targetDate;
       if (parsed.date && parsed.date !== targetDate) {
         if (confirm(`El PDF dice que es del ${parsed.date}. ¿Guardar el cuadre en esa fecha?`)) {
@@ -566,24 +598,12 @@ const CuadreDelDia = ({ store }) => {
           useDate = parsed.date;
         }
       }
-      // Merge only non-empty parsed values
-      const patch = { pdfFilename: file.name, rawOcrText: parsed.rawText || '' };
-      if (parsed.comprobante) patch.comprobante = parsed.comprobante;
-      if (parsed.responsable) patch.responsable = parsed.responsable;
-      if (parsed.ventas) {
-        patch.ventas = {
-          efectivo: parsed.ventas.efectivo || 0,
-          tarjeta: parsed.ventas.tarjeta || 0,
-          transferencia: parsed.ventas.transferencia || 0,
-        };
-      }
-      if (parsed.propinaTotal) patch.propinaTotal = parsed.propinaTotal;
-      if (parsed.gastos) patch.gastos = parsed.gastos;
-      store.updateDay(useDate, patch);
+      // Add (sum) into the day — pdf becomes a new entry in pdfFiles
+      store.addPdfToDay(useDate, file, parsed);
 
       const totalParsed = (parsed.ventas?.efectivo||0) + (parsed.ventas?.tarjeta||0) + (parsed.ventas?.transferencia||0);
       if (totalParsed === 0) {
-        setParseErr('No se detectaron valores. Edita manualmente o reintenta.');
+        setParseErr('No se detectaron valores. El PDF fue guardado pero los campos pueden estar vacíos — edita manualmente o reintenta.');
       }
     } catch (e) {
       console.error('PDF parse failed', e);
@@ -593,24 +613,30 @@ const CuadreDelDia = ({ store }) => {
     }
   };
 
-  const onFile = async (file) => {
-    // Pre-fill filename + try to detect date from filename
+  const onAddFile = async (file) => {
     let targetDate = date;
-    const m = file.name.match(/(\d{1,2})[-_/.](\d{1,2})/);
-    if (m) {
-      const month = parseInt(m[1]);
-      const dayN  = parseInt(m[2]);
-      const year = new Date().getFullYear();
-      if (month >= 1 && month <= 12 && dayN >= 1 && dayN <= 31) {
-        const iso = `${year}-${String(month).padStart(2,'0')}-${String(dayN).padStart(2,'0')}`;
-        if (iso !== date && confirm(`El nombre sugiere fecha ${iso}. ¿Usar esa fecha?`)) {
-          store.selectDate(iso);
-          targetDate = iso;
+    // Only suggest a date change on the FIRST PDF — on additional turns, stay on current day
+    const filesCount = (day.pdfFiles || []).length;
+    if (filesCount === 0) {
+      const m = file.name.match(/(\d{1,2})[-_/.](\d{1,2})/);
+      if (m) {
+        const month = parseInt(m[1]);
+        const dayN  = parseInt(m[2]);
+        const year = new Date().getFullYear();
+        if (month >= 1 && month <= 12 && dayN >= 1 && dayN <= 31) {
+          const iso = `${year}-${String(month).padStart(2,'0')}-${String(dayN).padStart(2,'0')}`;
+          if (iso !== date && confirm(`El nombre sugiere fecha ${iso}. ¿Usar esa fecha?`)) {
+            store.selectDate(iso);
+            targetDate = iso;
+          }
         }
       }
     }
-    store.updateDay(targetDate, { pdfFilename: file.name });
     await runParse(file, targetDate);
+  };
+
+  const onRemovePdf = (pdfId) => {
+    store.removePdfFromDay(date, pdfId);
   };
 
   const retryParse = () => {
@@ -653,7 +679,7 @@ const CuadreDelDia = ({ store }) => {
 
       {/* PDF dropzone */}
       <div style={{ marginBottom: 14 }}>
-        <PdfDropzone day={day} onFile={onFile} parsing={parsing} parseErr={parseErr} onRetry={retryParse} />
+        <PdfDropzone day={day} onAddFile={onAddFile} onRemovePdf={onRemovePdf} parsing={parsing} parseErr={parseErr} onRetry={retryParse} />
       </div>
 
       {/* 3 method cards */}

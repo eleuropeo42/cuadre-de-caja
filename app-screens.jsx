@@ -141,7 +141,11 @@ const Calendario = ({ store }) => {
                   <span style={{ fontWeight: isToday ? 700 : 500, fontSize: 13, textDecoration: isToday ? 'underline' : 'none' }}>
                     {c.day}
                   </span>
-                  {c.data?.pdfFilename && <span style={{ color: W.inkMute, opacity: 0.7 }}>{Ico.file()}</span>}
+                  {c.data?.pdfFiles?.length > 0 && (
+                    <span style={{ color: W.inkMute, opacity: 0.7, display: 'flex', alignItems: 'center', gap: 2 }}>
+                      {Ico.file()}{c.data.pdfFiles.length > 1 && <span style={{ fontSize: 9, fontWeight: 600 }}>×{c.data.pdfFiles.length}</span>}
+                    </span>
+                  )}
                 </div>
                 {comp?.contado > 0 && (
                   <div className="money" style={{ fontSize: 11, marginTop: 'auto' }}>
@@ -276,7 +280,12 @@ const ResumenMes = ({ store }) => {
               return (
                 <tr key={d.date} onClick={() => { store.selectDate(d.date); store.navigate('cuadre'); }} style={{ cursor: 'pointer' }}>
                   <td style={{ fontWeight: 500, color: W.ink }}>{shortDateLabel(d.date)}</td>
-                  <td>{d.pdfFilename ? <span className="tag tag-pdf">{Ico.file()} {d.pdfFilename}</span> : <span className="tag" style={{ color: W.inkGhost }}>—</span>}</td>
+                  <td>{(() => {
+                    const files = d.pdfFiles || [];
+                    if (files.length === 0) return <span className="tag" style={{ color: W.inkGhost }}>—</span>;
+                    if (files.length === 1) return <span className="tag tag-pdf">{Ico.file()} {files[0].name}</span>;
+                    return <span className="tag tag-pdf" title={files.map(f=>f.name).join('\n')}>{Ico.file()} {files.length} PDFs</span>;
+                  })()}</td>
                   <td className="t-num">{fmtMoney(c.porMetodo.efectivo.total)}</td>
                   <td className="t-num" style={{ color: W.inkSoft }}>{fmtMoney(c.porMetodo.tarjeta.total)}</td>
                   <td className="t-num" style={{ color: W.inkSoft }}>{fmtMoney(c.porMetodo.transferencia.total)}</td>
@@ -818,7 +827,7 @@ const PropinasView = ({ store }) => {
         iso,
         dayName,
         monto,
-        d?.pdfFilename || '',
+        d?.pdfFiles?.map(f => f.name).join(' · ') || '',
       ]);
     }
     aoa.push([]);
@@ -964,7 +973,12 @@ const PropinasView = ({ store }) => {
                   >
                     <td style={{ fontWeight: 500, color: propina > 0 ? W.ink : W.inkGhost }}>{shortDateLabel(iso)}</td>
                     <td style={{ color: W.inkSoft }}>{dayName}</td>
-                    <td>{d?.pdfFilename ? <span className="tag tag-pdf">{Ico.file()} {d.pdfFilename}</span> : <span style={{ color: W.inkGhost }}>—</span>}</td>
+                    <td>{(() => {
+                      const files = d?.pdfFiles || [];
+                      if (files.length === 0) return <span style={{ color: W.inkGhost }}>—</span>;
+                      if (files.length === 1) return <span className="tag tag-pdf">{Ico.file()} {files[0].name}</span>;
+                      return <span className="tag tag-pdf">{Ico.file()} {files.length} PDFs</span>;
+                    })()}</td>
                     <td className="t-num" style={{ color: propina > 0 ? W.ink : W.inkGhost }}>{propina > 0 ? fmtMoney(propina) : '—'}</td>
                     <td>
                       {propina > 0 && (

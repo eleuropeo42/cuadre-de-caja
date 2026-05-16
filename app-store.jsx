@@ -10,8 +10,19 @@ const SEED_DATA = {
       date: '2026-05-12',
       comprobante: '131',
       responsable: 'Cargo Beer Burger Pto Colombia',
-      pdfFilename: 'Cierre 5-12.pdf',
-      ventas: { efectivo: 212000, tarjeta: 266500, transferencia: 324000 },
+      pdfFiles: [{
+        id: 'pdf_seed_1',
+        name: 'Cierre 5-12.pdf',
+        comprobante: '131',
+        responsable: 'Cargo Beer Burger Pto Colombia',
+        rawOcrText: '',
+        contributed: {
+          ventas: { efectivo: 231000, tarjeta: 292500, transferencia: 336000 },
+          gastos: { nomina: 100000, proveedores: 31000, domicilios: 0, otros: 0 },
+          propinaTotal: 57000,
+        },
+      }],
+      ventas: { efectivo: 231000, tarjeta: 292500, transferencia: 336000 },
       domicilioEfectivo: 0,
       propinaTotal: 57000,
       gastos: { nomina: 100000, proveedores: 31000, domicilios: 0, otros: 0 },
@@ -20,26 +31,31 @@ const SEED_DATA = {
       contadoDetalle: { monedas: 0, b2k: 0, b5k: 0, b10k: 0, b20k: 0, b50k: 0, b100k: 0 },
     },
   },
-  extrasMes: {
-    // '2026-05': [{ id, fecha:'2026-05-14', desc, monto }]
-  },
+  extrasMes: {},
 };
 
 const loadData = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return structuredClone(SEED_DATA);
+    if (!raw) return migrateAll(structuredClone(SEED_DATA));
     const parsed = JSON.parse(raw);
-    // ensure shape
-    return {
+    return migrateAll({
       schemaVersion: parsed.schemaVersion || 1,
       days: parsed.days || {},
       extrasMes: parsed.extrasMes || {},
-    };
+    });
   } catch (e) {
     console.error('Failed to load data, using seed', e);
-    return structuredClone(SEED_DATA);
+    return migrateAll(structuredClone(SEED_DATA));
   }
+};
+
+const migrateAll = (data) => {
+  const days = {};
+  for (const [k, v] of Object.entries(data.days || {})) {
+    days[k] = normalizeDay(v);
+  }
+  return { ...data, days };
 };
 
 const saveData = (data) => {
@@ -122,11 +138,11 @@ const useStore = () => {
     setUI(u => ({ ...u, selectedMonth: ym }));
   };
 
-  const getDay = (date) => data.days[date] || emptyDay(date);
+  const getDay = (date) => normalizeDay(data.days[date] || emptyDay(date));
 
   const updateDay = (date, partial) => {
     setData(d => {
-      const existing = d.days[date] || emptyDay(date);
+      const existing = normalizeDay(d.days[date] || emptyDay(date));
       return {
         ...d,
         days: {
@@ -138,9 +154,8 @@ const useStore = () => {
   };
 
   const updateDayField = (date, path, value) => {
-    // path: ['gastos','nomina'] or ['contadoDetalle','b10k'] or ['ventas','efectivo']
     setData(d => {
-      const existing = d.days[date] || emptyDay(date);
+      const existing = normalizeDay(d.days[date] || emptyDay(date));
       const next = structuredClone(existing);
       let cur = next;
       for (let i = 0; i < path.length - 1; i++) {
@@ -148,6 +163,82 @@ const useStore = () => {
         cur = cur[path[i]];
       }
       cur[path[path.length-1]] = value;
+      next._mtime = Date.now();
+      return { ...d, days: { ...d.days, [date]: next } };
+    });
+  };
+
+  // === PDF files: add and remove ===
+  // parsed = { ventas, gastos, propinaTotal, comprobante, responsable, rawText }
+  const addPdfToDay = (date, file, parsed) => {
+    const contributed = {
+      ventas: {
+        efectivo: parsed.ventas?.efectivo || 0,
+        tarjeta: parsed.ventas?.tarjeta || 0,
+        transferencia: parsed.ventas?.transferencia || 0,
+      },
+      gastos: {
+        nomina: parsed.gastos?.nomina || 0,
+        proveedores: parsed.gastos?.proveedores || 0,
+        domicilios: parsed.gastos?.domicilios || 0,
+        otros: parsed.gastos?.otros || 0,
+      },
+      propinaTotal: parsed.propinaTotal || 0,
+    };
+    setData(d => {
+      const existing = normalizeDay(d.days[date] || emptyDay(date));
+      const next = structuredClone(existing);
+      const entry = {
+        id: 'pdf_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+        name: file.name,
+        comprobante: parsed.comprobante || '',
+        responsable: parsed.responsable || '',
+        rawOcrText: parsed.rawText || '',
+        contributed,
+      };
+      next.pdfFiles = [...(next.pdfFiles || []), entry];
+      // Aggregate values onto the day totals
+      for (const m of ['efectivo','tarjeta','transferencia']) {
+        next.ventas[m] = (Number(next.ventas[m])||0) + contributed.ventas[m];
+      }
+      for (const g of ['nomina','proveedores','domicilios','otros']) {
+        next.gastos[g] = (Number(next.gastos[g])||0) + contributed.gastos[g];
+      }
+      next.propinaTotal = (Number(next.propinaTotal)||0) + contributed.propinaTotal;
+      // Fill in day-level comprobante/responsable if empty
+      if (!next.comprobante && entry.comprobante) next.comprobante = entry.comprobante;
+      if (!next.responsable && entry.responsable) next.responsable = entry.responsable;
+      next._mtime = Date.now();
+      return { ...d, days: { ...d.days, [date]: next } };
+    });
+    return contributed;
+  };
+
+  const removePdfFromDay = (date, pdfId) => {
+    setData(d => {
+      const existing = normalizeDay(d.days[date] || emptyDay(date));
+      const idx = existing.pdfFiles.findIndex(p => p.id === pdfId);
+      if (idx === -1) return d;
+      const next = structuredClone(existing);
+      const removed = next.pdfFiles[idx];
+      next.pdfFiles.splice(idx, 1);
+      // Subtract contributed values (legacy entries have null contributed — leave totals alone)
+      if (removed.contributed) {
+        for (const m of ['efectivo','tarjeta','transferencia']) {
+          next.ventas[m] = Math.max(0, (Number(next.ventas[m])||0) - removed.contributed.ventas[m]);
+        }
+        for (const g of ['nomina','proveedores','domicilios','otros']) {
+          next.gastos[g] = Math.max(0, (Number(next.gastos[g])||0) - removed.contributed.gastos[g]);
+        }
+        next.propinaTotal = Math.max(0, (Number(next.propinaTotal)||0) - removed.contributed.propinaTotal);
+      }
+      // If we removed the file whose comprobante was on the day, replace with next file's
+      if (removed.comprobante && next.comprobante === removed.comprobante) {
+        next.comprobante = next.pdfFiles[0]?.comprobante || '';
+      }
+      if (removed.responsable && next.responsable === removed.responsable) {
+        next.responsable = next.pdfFiles[0]?.responsable || '';
+      }
       next._mtime = Date.now();
       return { ...d, days: { ...d.days, [date]: next } };
     });
@@ -316,6 +407,7 @@ const useStore = () => {
     data, ui,
     navigate, selectDate, selectMonth,
     getDay, updateDay, updateDayField, deleteDay,
+    addPdfToDay, removePdfFromDay,
     addAjuste, updateAjuste, removeAjuste,
     addNota, updateNota, removeNota,
     getExtrasMes, addExtraMes, updateExtraMes, removeExtraMes,
