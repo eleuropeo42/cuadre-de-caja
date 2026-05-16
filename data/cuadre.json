@@ -524,7 +524,13 @@
         "otros": 0
       },
       "ajustes": [],
-      "notas": [],
+      "notas": [
+        {
+          "id": 1778951510090.3423,
+          "monto": -180000,
+          "descripcion": "Venta Aceite"
+        }
+      ],
       "contadoDetalle": {
         "monedas": 500,
         "b2k": 16,
