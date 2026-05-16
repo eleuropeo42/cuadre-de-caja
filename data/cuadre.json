@@ -771,14 +771,14 @@
       "notas": [],
       "contadoDetalle": {
         "monedas": 0,
-        "b2k": 0,
-        "b5k": 5,
+        "b2k": 13,
+        "b5k": 6,
         "b10k": 13,
         "b20k": 3,
         "b50k": 7,
         "b100k": 3
       },
-      "_mtime": 1778952655866
+      "_mtime": 1778952665374
     }
   },
   "extrasMes": {
