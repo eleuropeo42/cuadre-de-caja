@@ -63,7 +63,13 @@
         "otros": 0
       },
       "ajustes": [],
-      "notas": [],
+      "notas": [
+        {
+          "id": 1779580715773.7932,
+          "monto": 194000,
+          "descripcion": "Propinas de Jhon"
+        }
+      ],
       "contadoDetalle": {
         "monedas": 5500,
         "b2k": 0,
