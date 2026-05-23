@@ -938,13 +938,13 @@
       "contadoDetalle": {
         "monedas": 300,
         "b2k": 3,
-        "b5k": 2,
+        "b5k": 7,
         "b10k": 1,
         "b20k": 4,
         "b50k": 4,
         "b100k": 0
       },
-      "_mtime": 1779580069927
+      "_mtime": 1779580089207
     }
   },
   "extrasMes": {
