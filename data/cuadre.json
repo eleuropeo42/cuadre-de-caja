@@ -1209,14 +1209,14 @@
       "notas": [],
       "contadoDetalle": {
         "monedas": 0,
-        "b2k": 0,
-        "b5k": 0,
+        "b2k": 2,
+        "b5k": 2,
         "b10k": 0,
         "b20k": 0,
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1779581462752
+      "_mtime": 1779581471550
     }
   },
   "extrasMes": {
