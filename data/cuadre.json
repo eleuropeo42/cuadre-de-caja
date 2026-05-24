@@ -866,7 +866,7 @@
       ],
       "ventas": {
         "efectivo": 492400,
-        "tarjeta": 25790,
+        "tarjeta": 257900,
         "transferencia": 733750
       },
       "domicilioEfectivo": 0,
@@ -888,7 +888,7 @@
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1779580929957
+      "_mtime": 1779580949289
     },
     "2026-05-17": {
       "date": "2026-05-17",
