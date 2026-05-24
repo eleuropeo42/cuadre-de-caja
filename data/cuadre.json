@@ -1371,7 +1371,13 @@
         "otros": 47000
       },
       "ajustes": [],
-      "notas": [],
+      "notas": [
+        {
+          "id": 1779581932138.1812,
+          "monto": 50000,
+          "descripcion": "Pago Mary no entro en gastos"
+        }
+      ],
       "contadoDetalle": {
         "monedas": 600,
         "b2k": 17,
