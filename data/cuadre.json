@@ -1263,13 +1263,13 @@
       "contadoDetalle": {
         "monedas": 0,
         "b2k": 0,
-        "b5k": 0,
+        "b5k": 2,
         "b10k": 0,
         "b20k": 2,
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1779581551606
+      "_mtime": 1779581557521
     }
   },
   "extrasMes": {
