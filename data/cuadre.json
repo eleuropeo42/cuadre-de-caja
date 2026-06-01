@@ -1678,7 +1678,7 @@
       "domicilioEfectivo": 0,
       "propinaTotal": 42000,
       "gastos": {
-        "nomina": 11000,
+        "nomina": 0,
         "proveedores": 0,
         "domicilios": 4000,
         "otros": 0
@@ -1700,7 +1700,7 @@
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1780358385862
+      "_mtime": 1780358392214
     }
   },
   "extrasMes": {
