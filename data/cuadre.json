@@ -1441,6 +1441,59 @@
         "b100k": 0
       },
       "_mtime": 1779582091274
+    },
+    "2026-05-26": {
+      "date": "2026-05-26",
+      "comprobante": "150",
+      "responsable": "Cargo Beer Burger Pto Colombia",
+      "pdfFiles": [
+        {
+          "id": "pdf_1780352595038_g3k2g",
+          "name": "Loggro Restobar - Impresión de cuadre de caja.pdf26.pdf",
+          "comprobante": "150",
+          "responsable": "Cargo Beer Burger Pto Colombia",
+          "rawOcrText": "\n6/1/26, 5:22 PM Loggro Restobar - Impresión de cuadre de caja\nComprobante Informe Diario\nCARGO BEER BURGER 8 GRILL\nNIT: 902003889\nDir.: Dg 4A 414-170\nTel.: 3237199188\nWeb: Ecargobeerburger\nComprobante No.: 150\nResponsable de caja: Cargo Beer Burger Pto Colombia\nFecha Inicial: 2026-05-26 04:29:28 p. m.\nFecha Final: 2026-05-26 09:54:15 p. m.\nTipo de comprobante: Comprobante\nNúmero Inicial: 2708\nNúmero Final: 2715\nNúm. Inicial Electronica:\nNúm. Final Electronica:\nTransacciones: 8\nDocumentos Anulados: 0\nValor Transacciones: $ 850.200\nPropinas: $ 77.200\nInicial\nMedio de pago Inicial\nEfectivo $ 150.000\nNequi $o\nTarjeta $o\nTransferencia so\nTotal $ 150.000\nVentas\n\nNombre No. Trans. Sistema\nEfectivo o so\nNequi o so\nTarjeta 7 $777.600\nTransferencia 1 $72.600\nTotal (Prop. Incluida) $ 850.200\nPropinas $77.200\n\nVentas a Crédito\n\nNo. Trans. Ventas Domicilio Total\no so so $0\nDetalle Ventas\nNombre Venta Propina Domicilio Total\nEfectivo so so so so\nNequi $o so so $o\nTarjeta $ 707.000 $ 70.600 $0 $777.600\nhttps//restobar loggro com/é/cashBox-print?id=6a1610b8c553ea883ed2a418 12\n\n6/1/26, 5:22 PM Loggro Restobar - Impresión de cuadre de caja\nNombre Venta Propina Domicilio Total\nTransferencia $66.000 $ 6.600 $0 $72.600\nTotal $ 773.000 $77.200 $0 $850.200\nImpuestos\nNombre Base Imp\nTotal so\nGastos\nTipo de gasto Total\nTotal so\nResumen\nInicial + Ventas + Propinas + Domicilios $ 1.000.200\nPagos facturas de compras so\nGastos $o\nTotal Efectivo $ 150.000\nDebe tener $ 1.000.200\nDomicilios $o\nhittps://restobar-Joggro.com/át/cashBox-print?id=6a1610b8c553ea883ed2a418 2/2\n",
+          "contributed": {
+            "ventas": {
+              "efectivo": 0,
+              "tarjeta": 777600,
+              "transferencia": 72600
+            },
+            "gastos": {
+              "nomina": 0,
+              "proveedores": 0,
+              "domicilios": 0,
+              "otros": 0
+            },
+            "propinaTotal": 77200
+          }
+        }
+      ],
+      "ventas": {
+        "efectivo": 0,
+        "tarjeta": 777600,
+        "transferencia": 72600
+      },
+      "domicilioEfectivo": 0,
+      "propinaTotal": 77200,
+      "gastos": {
+        "nomina": 0,
+        "proveedores": 0,
+        "domicilios": 0,
+        "otros": 0
+      },
+      "ajustes": [],
+      "notas": [],
+      "contadoDetalle": {
+        "monedas": 0,
+        "b2k": 0,
+        "b5k": 0,
+        "b10k": 0,
+        "b20k": 0,
+        "b50k": 0,
+        "b100k": 0
+      },
+      "_mtime": 1780352595038
     }
   },
   "extrasMes": {
