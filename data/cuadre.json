@@ -1684,7 +1684,13 @@
         "otros": 0
       },
       "ajustes": [],
-      "notas": [],
+      "notas": [
+        {
+          "id": 1780358367025.3481,
+          "monto": 0,
+          "descripcion": ""
+        }
+      ],
       "contadoDetalle": {
         "monedas": 0,
         "b2k": 0,
