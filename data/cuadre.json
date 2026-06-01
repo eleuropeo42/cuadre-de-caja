@@ -1613,14 +1613,14 @@
       "notas": [],
       "contadoDetalle": {
         "monedas": 2075,
-        "b2k": 8,
+        "b2k": 23,
         "b5k": 0,
         "b10k": 0,
         "b20k": 0,
         "b50k": 1,
         "b100k": 1
       },
-      "_mtime": 1780356222562
+      "_mtime": 1780356265288
     }
   },
   "extrasMes": {
