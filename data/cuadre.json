@@ -1520,20 +1520,41 @@
             },
             "propinaTotal": 143000
           }
+        },
+        {
+          "id": "pdf_1780357133452_zjz34",
+          "name": "Cierre 5-24 AM.pdf",
+          "comprobante": "147",
+          "responsable": "Cargo Beer Burger Pto Colombia",
+          "rawOcrText": "\n6/1/26, 7:38 PM Loggro Restobar - Impresión de cuadre de caja\nComprobante Informe Diario\nCARGO BEER BURGER 8 GRILL\nNIT: 902003889\nDir.: Dg 4A 414-170\nTel.: 3237199188\nWeb: Ecargobeerburger\nComprobante No.: 147\nResponsable de caja: Cargo Beer Burger Pto Colombia\nFecha Inicial: 2026-05-24 08:14:23 a. m.\nFecha Final: 2026-05-24 04:54:04 p. m.\nTipo de comprobante: Comprobante\nNúmero Inicial: 2667\nNúmero Final: 2678\nNúm. Inicial Electronica:\nNúm. Final Electronica:\nTransacciones: 12\nDocumentos Anulados: 0\nValor Transacciones: $ 803.200\nPropinas: $ 70.700\nInicial\nMedio de pago Inicial\nEfectivo $ 150.000\nNequi so\nTarjeta so\nTransferencia so\nTotal $ 150.000\nVentas\n\nNombre No. Trans. Sistema\nEfectivo 7 $341.800\nNequi o $o\nTarjeta 3 $364.600\nTransferencia 2 $96.800\nTotal (Prop. Incluida) $ 803.200\nPropinas $ 70.700\n\nVentas a Crédito\n\nNo. Trans. Ventas Domicilio Total\no $o so $0\nDetalle Ventas\nNombre Venta Propina Domicilio Total\nEfectivo $ 310.000 $31.800 $0 $341.800\nNequi so so so so\nTarjeta $ 331.500 $33.100 $0 $364.600\nhttps://restobar.loggro.com/f/cashBox-print?id=6a12eb9fa7 ca01c60d4c43a1 1/2\n\n6/1/26, 7:38 PM Loggro Restobar - Impresión de cuadre de caja\nNombre Venta Propina Domicilio Total\nTransferencia $91.000 $65.800 $0 $96.800\nTotal $ 732.500 $70.700 $0 $803.200\nImpuestos\nNombre Base Imp\nTotal so\nGastos\nTipo de gasto Total\nTransporte $ 3.000\nNómina $ 150.000\nTotal $ 153.000\nResumen\nInicial + Ventas + Propinas + Domicilios $ 953.200\nPagos facturas de compras so\nGastos -$ 153.000\nTotal Efectivo $ 338.800\nDebe tener $ 800.200\nDomicilios so\nhitps:/restobar.loggro.com/filcashBox-print?id=6a12eb9fa7ca0 1c60d4c43a1 212\n",
+          "contributed": {
+            "ventas": {
+              "efectivo": 341800,
+              "tarjeta": 364600,
+              "transferencia": 96800
+            },
+            "gastos": {
+              "nomina": 150000,
+              "proveedores": 0,
+              "domicilios": 0,
+              "otros": 3000
+            },
+            "propinaTotal": 70700
+          }
         }
       ],
       "ventas": {
-        "efectivo": 323700,
-        "tarjeta": 1068400,
-        "transferencia": 637400
+        "efectivo": 665500,
+        "tarjeta": 1433000,
+        "transferencia": 734200
       },
       "domicilioEfectivo": 0,
-      "propinaTotal": 143000,
+      "propinaTotal": 213700,
       "gastos": {
-        "nomina": 50000,
+        "nomina": 200000,
         "proveedores": 0,
         "domicilios": 17000,
-        "otros": 0
+        "otros": 3000
       },
       "ajustes": [],
       "notas": [],
@@ -1546,7 +1567,7 @@
         "b50k": 3,
         "b100k": 1
       },
-      "_mtime": 1780355038361
+      "_mtime": 1780357133452
     },
     "2026-05-31": {
       "date": "2026-05-31",
