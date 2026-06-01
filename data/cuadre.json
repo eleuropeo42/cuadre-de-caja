@@ -1547,6 +1547,37 @@
         "b100k": 1
       },
       "_mtime": 1780355038361
+    },
+    "2026-05-31": {
+      "date": "2026-05-31",
+      "comprobante": "",
+      "responsable": "",
+      "pdfFiles": [],
+      "ventas": {
+        "efectivo": 0,
+        "tarjeta": 0,
+        "transferencia": 0
+      },
+      "domicilioEfectivo": 0,
+      "propinaTotal": 0,
+      "gastos": {
+        "nomina": 0,
+        "proveedores": 0,
+        "domicilios": 0,
+        "otros": 0
+      },
+      "ajustes": [],
+      "notas": [],
+      "contadoDetalle": {
+        "monedas": 0,
+        "b2k": 0,
+        "b5k": 0,
+        "b10k": 0,
+        "b20k": 0,
+        "b50k": 0,
+        "b100k": 0
+      },
+      "_mtime": 1780355872074
     }
   },
   "extrasMes": {
