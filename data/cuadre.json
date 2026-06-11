@@ -1930,7 +1930,7 @@
       "ajustes": [],
       "notas": [],
       "contadoDetalle": {
-        "monedas": 2700,
+        "monedas": 2600,
         "b2k": 2,
         "b5k": 0,
         "b10k": 0,
@@ -1938,7 +1938,7 @@
         "b50k": 0,
         "b100k": 1
       },
-      "_mtime": 1781216998301
+      "_mtime": 1781217008454
     }
   },
   "extrasMes": {
