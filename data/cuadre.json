@@ -1952,14 +1952,14 @@
       "notas": [],
       "contadoDetalle": {
         "monedas": 3600,
-        "b2k": 2,
+        "b2k": 7,
         "b5k": 0,
         "b10k": 0,
         "b20k": 1,
         "b50k": 0,
         "b100k": 1
       },
-      "_mtime": 1781217267344
+      "_mtime": 1781217274985
     }
   },
   "extrasMes": {
