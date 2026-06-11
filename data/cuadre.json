@@ -1889,21 +1889,43 @@
     },
     "2026-06-07": {
       "date": "2026-06-07",
-      "comprobante": "",
-      "responsable": "",
-      "pdfFiles": [],
+      "comprobante": "166",
+      "responsable": "Cargo Beer Burger Pto Colombia",
+      "pdfFiles": [
+        {
+          "id": "pdf_1781216998301_kn8wg",
+          "name": "Loggro Restobar - Impresión de cuadre de caja.pdf 07 jun am.pdf",
+          "comprobante": "166",
+          "responsable": "Cargo Beer Burger Pto Colombia",
+          "rawOcrText": "\n6/11/26, 5:29 PM Loggro Restobar - Impresión de cuadre de caja\nComprobante Informe Diario\nCARGO BEER BURGER 8 GRILL\nNIT: 902003889\nDir.: Dg 4A 414-170\nTel.: 3237199188\nWeb: Ecargobeerburger\nComprobante No.: 166\nResponsable de caja: Cargo Beer Burger Pto Colombia\nFecha Inicial: 2026-06-07 06:42:19 a. m.\nFecha Final: 2026-06-07 04:10:49 p. m.\nTipo de comprobante: Comprobante\nNúmero Inicial: 2915\nNúmero Final: 2057\nNúm. Inicial Electronica:\nNúm. Final Electronica:\nTransacciones: 43\nDocumentos Anulados: 0\nValor Transacciones: $ 1.350.200\nPropinas: $ 80.900\nInicial\nMedio de pago Inicial\nEfectivo $ 150.000\nNequi $o\nTarjeta $o\nTransferencia so\nTotal $ 150.000\nVentas\n\nNombre No. Trans. Sistema\nEfectivo 14 $306.600\nNequi o so\nTarjeta 7 $263.600\nTransferencia 22 $760.000\nTotal (Prop. Incluida) $ 1.350.200\nPropinas $ 80.900\n\nVentas a Crédito\n\nNo. Trans. Ventas Domicilio Total\no so so $0\nDetalle Ventas\nNombre Venta Propina Domicilio Total\nEfectivo $ 294.700 $11.900 $0 $306.600\nNequi $o so so $o\nTarjeta $ 242.800 $20.800 $0 $263.600\nhttps//restobar loggro com/é/cashBox-print?id=6a25591b885aea334a12b7da 12\n\n6/11/26, 5:29 PM Loggro Restobar - Impresión de cuadre de caja\nNombre Venta Propina Domicilio Total\nTransferencia 731.800 $48.200 $0 $780.000\nTotal $ 1.269.300 $ 80.000 $0 $1.350.200\n\nImpuestos\nNombre Base Imp\nTotal so\n\nGastos\n\nTipo de gasto Total\nTransporte $ 12.000\nNómina $ 56.000\nNómina $ 112.000\nTotal $ 180.000\n\nResumen\nInicial + Ventas + Propinas + Domicilios $ 1.500.200\nPagos facturas de compras so\nGastos -$ 180.000\nTotal Efectivo $ 276.600\nDebe tener $ 1.320.200\nDomicilios $o\n\nhitps://restobar-Joggro.com/át/cashBox-print?id=6a25591b885aea334a12b7da 2/2\n",
+          "contributed": {
+            "ventas": {
+              "efectivo": 306600,
+              "tarjeta": 263600,
+              "transferencia": 760000
+            },
+            "gastos": {
+              "nomina": 168000,
+              "proveedores": 0,
+              "domicilios": 0,
+              "otros": 12000
+            },
+            "propinaTotal": 80900
+          }
+        }
+      ],
       "ventas": {
-        "efectivo": 0,
-        "tarjeta": 0,
-        "transferencia": 0
+        "efectivo": 306600,
+        "tarjeta": 263600,
+        "transferencia": 760000
       },
       "domicilioEfectivo": 0,
-      "propinaTotal": 0,
+      "propinaTotal": 80900,
       "gastos": {
-        "nomina": 0,
+        "nomina": 168000,
         "proveedores": 0,
         "domicilios": 0,
-        "otros": 0
+        "otros": 12000
       },
       "ajustes": [],
       "notas": [],
@@ -1916,7 +1938,7 @@
         "b50k": 0,
         "b100k": 1
       },
-      "_mtime": 1781216888159
+      "_mtime": 1781216998301
     }
   },
   "extrasMes": {
