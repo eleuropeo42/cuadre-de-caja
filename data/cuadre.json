@@ -1762,41 +1762,19 @@
     },
     "2026-06-05": {
       "date": "2026-06-05",
-      "comprobante": "163",
-      "responsable": "Cargo Beer Burger Pto Colombia",
-      "pdfFiles": [
-        {
-          "id": "pdf_1781216275006_w4c10",
-          "name": "Loggro Restobar - Impresión de cuadre de caja.pdf 06 06 pm.pdf",
-          "comprobante": "163",
-          "responsable": "Cargo Beer Burger Pto Colombia",
-          "rawOcrText": "\n6/11/26, 5:16 PM Loggro Restobar - Impresión de cuadre de caja\nComprobante Informe Diario\nCARGO BEER BURGER 8 GRILL\nNIT: 902003889\nDir.: Dg 4A 414-170\nTel.: 3237199188\nWeb: Ecargobeerburger\nComprobante No.: 163\nResponsable de caja: Cargo Beer Burger Pto Colombia\nFecha Inicial: 2026-06-05 04:31:31 p. m.\nFecha Final: 2026-06-05 10:09:44 p. m.\nTipo de comprobante: Comprobante\nNúmero Inicial: 2883\nNúmero Final: 2806\nNúm. Inicial Electronica:\nNúm. Final Electronica:\nTransacciones: 14\nDocumentos Anulados: 0\nValor Transacciones: $ 1.326.700\nPropinas: $ 93.450\nInicial\nMedio de pago Inicial\nEfectivo $ 150.000\nNequi $o\nTarjeta $o\nTransferencia so\nTotal $ 150.000\nVentas\n\nNombre No. Trans. Sistema\nEfectivo 5 $2468.050\nNequi o so\nTarjeta 6 $717.650\nTransferencia 3 $361.000\nTotal (Prop. Incluida) $ 1.326.700\nPropinas $ 93.450\n\nVentas a Crédito\n\nNo. Trans. Ventas Domicilio Total\no so so $0\nDetalle Ventas\nNombre Venta Propina Domicilio Total\nEfectivo $229.750 $18.300 $0 $248.050\nNequi $o so so $o\nTarjeta $ 652.500 $65.150 $0 $717.650\nhttps//restobar loggro.com/é/cashBox-print?id=6a2340334cc300505a5cee55 12\n\n6/11/26, 5:16 PM Loggro Restobar - Impresión de cuadre de caja\nNombre Venta Propina Domicilio Total\nTransferencia —$351.000 $10.000 $0 $361.000\nTotal $ 1.233.250 $93.450 $0 $1.326.700\n\nImpuestos\nNombre Base Imp\nTotal so\n\nGastos\n\nTipo de gasto Total\nInsumos $ 49.800\nNómina $ 100.000\nNómina $ 50.000\nTotal $ 199.800\n\nResumen\nInicial + Ventas + Propinas + Domicilios $ 1.476.700\nPagos facturas de compras so\nGastos -$ 199.800\nTotal Efectivo $ 198.250\nDebe tener $ 1.276.900\nDomicilios $o\n\nhitps://restobar loggro.com/át/cashBox-print?id=6a2340334cc300505a5cee55 2/2\n",
-          "contributed": {
-            "ventas": {
-              "efectivo": 2468050,
-              "tarjeta": 717650,
-              "transferencia": 361000
-            },
-            "gastos": {
-              "nomina": 150000,
-              "proveedores": 49800,
-              "domicilios": 0,
-              "otros": 0
-            },
-            "propinaTotal": 93450
-          }
-        }
-      ],
+      "comprobante": "",
+      "responsable": "",
+      "pdfFiles": [],
       "ventas": {
-        "efectivo": 248050,
-        "tarjeta": 717650,
-        "transferencia": 361000
+        "efectivo": 0,
+        "tarjeta": 0,
+        "transferencia": 0
       },
       "domicilioEfectivo": 0,
-      "propinaTotal": 93450,
+      "propinaTotal": 0,
       "gastos": {
-        "nomina": 150000,
-        "proveedores": 49800,
+        "nomina": 0,
+        "proveedores": 0,
         "domicilios": 0,
         "otros": 0
       },
@@ -1811,7 +1789,7 @@
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1781216280539
+      "_mtime": 1781216301383
     },
     "2026-06-06": {
       "date": "2026-06-06",
