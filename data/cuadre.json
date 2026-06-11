@@ -1788,7 +1788,7 @@
         }
       ],
       "ventas": {
-        "efectivo": 246805,
+        "efectivo": 248050,
         "tarjeta": 717650,
         "transferencia": 361000
       },
@@ -1811,7 +1811,7 @@
         "b50k": 0,
         "b100k": 0
       },
-      "_mtime": 1781214594997
+      "_mtime": 1781214603846
     }
   },
   "extrasMes": {
